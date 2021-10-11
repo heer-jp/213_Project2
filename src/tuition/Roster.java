@@ -12,6 +12,7 @@ public class Roster {
     public static final int NOT_FOUND = -1;
     public static final int ROSTER_INCREASE_SIZE = 4;
     public static final int ROSTER_DEFAULT_SIZE = 0;
+    public static final int DEFAULT_PAYMENT_COUNT = 0;
     public static final Date NO_PAYMENT_DATE = new Date("1/1/2021");
 
     /**
@@ -123,7 +124,7 @@ public class Roster {
      * Prints all students in student roster
      */
     public void print() {
-        if (size != 0) {
+        if (size != ROSTER_DEFAULT_SIZE) {
             System.out.println("* list of students in the roster **");
             for (Student student : roster)
                 if (student != null)
@@ -142,14 +143,14 @@ public class Roster {
             int swapIndex = i;
             for (int j = i + 1; j < roster.length; j++) {
                 if (roster[j] != null && roster[swapIndex] != null)
-                    if (roster[j].getProfile().getName().compareTo(roster[swapIndex].getProfile().getName()) < 0)
+                    if (roster[j].getProfile().getName().compareTo(roster[swapIndex].getProfile().getName()) < ROSTER_DEFAULT_SIZE)
                         swapIndex = j;
             }
             Student tmpStudent = roster[swapIndex];
             roster[swapIndex] = roster[i];
             roster[i] = tmpStudent;
         }
-        if (size != 0) {
+        if (size != ROSTER_DEFAULT_SIZE) {
             System.out.println("* list of students ordered by name **");
             for (Student student : roster)
                 if (student != null)
@@ -164,7 +165,7 @@ public class Roster {
      * Prints all students in student roster by payment date
      */
     public void printByPaymentDate() {
-        int paymentCount = 0;
+        int paymentCount = DEFAULT_PAYMENT_COUNT;
         for (int i = 0; i < size; i++) {
             if (roster[i].getLastPaymentDate() != null)
                 paymentCount++;
@@ -176,12 +177,12 @@ public class Roster {
                     if (roster[swapIndex].getLastPaymentDate() == null && roster[j].getLastPaymentDate() == null) {
                         continue;
                     } else if (roster[swapIndex].getLastPaymentDate() == null) {
-                        if (roster[j].getLastPaymentDate().compareTo(NO_PAYMENT_DATE) > 0)
+                        if (roster[j].getLastPaymentDate().compareTo(NO_PAYMENT_DATE) > ROSTER_DEFAULT_SIZE)
                             swapIndex = j;
                     } else if (roster[j].getLastPaymentDate() == null) {
-                        if (NO_PAYMENT_DATE.compareTo(roster[swapIndex].getLastPaymentDate()) > 0)
+                        if (NO_PAYMENT_DATE.compareTo(roster[swapIndex].getLastPaymentDate()) > ROSTER_DEFAULT_SIZE)
                             swapIndex = j;
-                    } else if (roster[j].getLastPaymentDate().compareTo(roster[swapIndex].getLastPaymentDate()) > 0) {
+                    } else if (roster[j].getLastPaymentDate().compareTo(roster[swapIndex].getLastPaymentDate()) > ROSTER_DEFAULT_SIZE) {
                         swapIndex = j;
                     }
                 }
@@ -190,7 +191,7 @@ public class Roster {
             roster[swapIndex] = roster[i];
             roster[i] = tmpStudent;
         }
-        if (size != 0) {
+        if (size != ROSTER_DEFAULT_SIZE) {
             System.out.println("* list of students made payments ordered by payment date **");
             for (int i = size - paymentCount; i < size; i++) {
                 if (roster[i] != null)
